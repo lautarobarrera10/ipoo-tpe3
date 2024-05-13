@@ -35,4 +35,15 @@ Class PasajeroVIP extends Pasajero{
         "Cantidad de millas: " . $this->getCantidadDeMillas();
         return $cadena;
     }
+
+    // Implementar el método darPorcentajeIncremento() que retorne el porcentaje que debe aplicarse como incremento según las características del pasajero. Para un pasajero VIP se incrementa el importe un 35% y si la cantidad de millas acumuladas supera a las 300 millas se realiza un incremento del 30%.
+
+    public function darPorcentajeIncremento(){
+        $porcentaje = 35;
+        $millas = $this->getCantidadDeMillas();
+        if ($millas > 300){
+            $porcentaje = 30;
+        }
+        return $porcentaje;
+    }
 }

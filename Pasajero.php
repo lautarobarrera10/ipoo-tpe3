@@ -78,4 +78,10 @@ Class Pasajero {
         "Número de asiento: " . $this->getNumeroDeAsiento() . "\n" .
         "Número de ticket: " . $this->getNumeroDeTicket() . "\n";
     }
+
+    public function darPorcentajeIncremento(){
+        // Por último, para los pasajeros comunes el porcentaje de incremento es del 10 %.
+        $porcentaje = 10;
+        return $porcentaje;
+    }
 }
