@@ -8,13 +8,13 @@ include "Pasajero.php";
 include "ResponsableV.php";
 
 function menu(){
-    $objPasajero1 = new Pasajero("Lautaro", "Barrera" , 41421435, 2995506358);
-    $objPasajero2 = new Pasajero("Pedro", "Gonzales" , 43352635, 2995448866);
-    $objPasajero3 = new Pasajero("Lucio", "Brunet" , 42256984, 2995436857);
+    $objPasajero1 = new Pasajero("Lautaro", "Barrera" , 41421435, 2995506358, 1, 100);
+    $objPasajero2 = new Pasajero("Pedro", "Gonzales" , 43352635, 2995448866, 2, 101);
+    $objPasajero3 = new Pasajero("Lucio", "Brunet" , 42256984, 2995436857, 3, 102);
 
     $objResponsableV = new ResponsableV(1, 123, "Carla", "Pérez");
 
-    $viajeFeliz = new Viaje(1, "Mar del Plata", 4, [$objPasajero1, $objPasajero2, $objPasajero3], $objResponsableV);
+    $viajeFeliz = new Viaje(1, "Mar del Plata", 4, [$objPasajero1, $objPasajero2, $objPasajero3], $objResponsableV, 50);
 
     $eleccion = 0;
     while ($eleccion != 8){
@@ -129,23 +129,7 @@ function menu(){
                 }
                 break;
             case 7:
-                echo "Agregar pasajero \n" .
-                "Ingrese número de DNI: \n";
-                $dni = trim(fgets(STDIN));
-                echo "Ingrese nombre: \n";
-                $nombre = trim(fgets(STDIN));
-                echo "Ingrese apellido: \n";
-                $apellido = trim(fgets(STDIN));
-                echo "Ingrese teléfono: \n";
-                $telefono = trim(fgets(STDIN));
-                $nuevoPasajero = new Pasajero($nombre,$apellido,$dni,$telefono);
-                $agregado = $viajeFeliz->agregarPasajero($nuevoPasajero);
-                if ($agregado){
-                    echo "Pasajero agregado correctamente. \n";
-                } else {
-                    echo "No pudimos agregar al pasajero.\n";
-                }
-                break;
+                // Hay que programar esta opción teniendo en cuenta que puede ser VIP o con necesidades especiales.
             case 8:
                 echo "Gracias por usar nuestro programa.\n";
                 break;
