@@ -12,13 +12,22 @@ Class Pasajero {
     private $numeroDeAsiento;
     private $numeroDeTicket;
 
-    public function __construct( string $nombre, string $apellido, int $numeroDeDocumento, int $telefono, int $numeroDeAsiento, int $numeroDeTicket){
-        $this->nombre = $nombre;
-        $this->apellido = $apellido;
-        $this->numeroDeDocumento = $numeroDeDocumento;
-        $this->telefono = $telefono;
-        $this->numeroDeAsiento = $numeroDeAsiento;
-        $this->numeroDeTicket = $numeroDeTicket;
+    public function __construct(){
+        $this->nombre = "";
+        $this->apellido = "";
+        $this->numeroDeDocumento = 0;
+        $this->telefono = 0;
+        $this->numeroDeAsiento = 0;
+        $this->numeroDeTicket = 0;
+    }
+
+    public function cargar(string $nombre, string $apellido, int $numeroDeDocumento, int $telefono, int $numeroDeAsiento, int $numeroDeTicket){
+        $this->setNombre($nombre);
+        $this->setApellido($apellido);
+        $this->setNumeroDeDocumento($numeroDeDocumento);
+        $this->setTelefono($telefono);
+        $this->setNumeroDeAsiento($numeroDeAsiento);
+        $this->setNumeroDeTicket($numeroDeTicket);
     }
 
     public function getNombre(){
