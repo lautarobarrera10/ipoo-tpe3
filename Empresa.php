@@ -39,6 +39,13 @@ class Empresa {
         $this->mensajeoperacion = $mensaje;
     }
 
+    public function __toString(){
+        return
+        "ID: " . $this->getId() . "\n" .
+        "Nombre: " . $this->getNombre() . "\n" .
+        "Dirección: " . $this->getDireccion() . "\n";
+    }
+
     public function cargar(string $nombre, string $direccion){
         $this->setNombre($nombre);
         $this->setDireccion($direccion);
@@ -61,8 +68,60 @@ class Empresa {
 
 		} else {
 				$this->setMensajeoperacion($database->getError());
-			
 		}
 		return $resp;
+    }
+
+    public function buscar(string $nombre){
+        $database = new Database;
+		$consulta="SELECT * FROM empresa WHERE enombre='".$nombre."'";
+        $rta = false;
+        if ($database->iniciar()){
+            if ($database->ejecutar($consulta)){
+                if ($empresa = $database->registro()){
+                    $this->setId($empresa['idempresa']);
+                    $this->setNombre($empresa['enombre']);
+                    $this->setDireccion($empresa['edireccion']);
+                    $rta = true;
+                }
+            } else {
+                $this->setMensajeoperacion($database->getError());
+            }
+        } else {
+            $this->setMensajeoperacion($database->getError());
+        }
+        return $rta;
+    }
+
+    public function modificar(){
+        $database = new Database;
+        $consulta = "UPDATE empresa SET enombre = '". $this->getNombre() ."', edireccion = '". $this->getDireccion() ."' WHERE idempresa = " . $this->getId();
+        $rta = false;
+        if ($database->iniciar()){
+            if ($database->ejecutar($consulta)){
+                $rta = true;
+            } else {
+                $this->setMensajeoperacion($database->getError());
+            }
+        } else {
+            $this->setMensajeoperacion($database->getError());
+        }
+        return $rta;
+    }
+
+    public function eliminar(){
+        $database = new Database;
+        $consulta = "DELETE FROM empresa WHERE idempresa = " . $this->getId();
+        $rta = false;
+        if ($database->iniciar()){
+            if ($database->ejecutar($consulta)){
+                $rta = true;
+            } else {
+                $this->setMensajeoperacion($database->getError());
+            }
+        } else {
+            $this->setMensajeoperacion($database->getError());
+        }
+        return $rta;
     }
 }

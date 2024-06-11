@@ -42,6 +42,28 @@ Class ResponsableV {
 		}
 		return $resp;
     }
+    
+    public function buscar(int $numeroEmpleado){
+        $database = new Database;
+		$consulta="SELECT * FROM responsable WHERE rnumeroempleado=".$numeroEmpleado;
+        $rta = false;
+        if ($database->iniciar()){
+            if ($database->ejecutar($consulta)){
+                if ($empleado = $database->registro()){
+                    $this->setNumeroDeEmpleado($empleado['rnumeroempleado']);
+                    $this->setNumeroDeLicencia($empleado['rnumerolicencia']);
+                    $this->setNombre($empleado['rnombre']);
+                    $this->setApellido($empleado['rapellido']);
+                    $rta = true;
+                }
+            } else {
+                $this->setMensajeoperacion($database->getError());
+            }
+        } else {
+            $this->setMensajeoperacion($database->getError());
+        }
+        return $rta;
+    }
 
     public function getNumeroDeEmpleado(){
         return $this->numeroDeEmpleado;

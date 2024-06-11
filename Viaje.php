@@ -57,6 +57,34 @@ Class Viaje {
 		return $resp;
     }
 
+    public function buscar(int $idviaje){
+        $database = new Database;
+		$consulta="SELECT * FROM viaje WHERE idviaje=".$idviaje;
+        $rta = false;
+        if ($database->iniciar()){
+            if ($database->ejecutar($consulta)){
+                if ($viaje = $database->registro()){
+                    $this->setCodigo($viaje['idviaje']);
+                    $this->setDestino($viaje['vdestino']);
+                    $this->setCantidadMaximaDePasajeros($viaje['vcantmaxpasajeros']);
+                    $empresa = new Empresa;
+                    $empresa->buscar($viaje['idempresa']);
+                    $this->setObjEmpresa($empresa);
+                    $empleado = new ResponsableV;
+                    $empleado->buscar($viaje['rnumeroempleado']);
+                    $this->setObjResponsableV($empleado);
+                    $this->setCostoDelViaje($viaje['vimporte']);
+                    $rta = true;
+                }
+            } else {
+                $this->setMensajeoperacion($database->getError());
+            }
+        } else {
+            $this->setMensajeoperacion($database->getError());
+        }
+        return $rta;
+    }
+
     public function getCodigo(){
         return $this->codigo;
     }

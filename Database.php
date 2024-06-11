@@ -98,4 +98,25 @@ class Database {
     
         return $resp;
     }
+
+        /**
+     * Devuelve un registro retornado por la ejecucion de una consulta
+     * el puntero se despleza al siguiente registro de la consulta
+     *
+     * @return boolean
+     */
+    public function registro() {
+        $resp = null;
+        if ($this->RESULT){
+            unset($this->ERROR);
+            if($temp = mysqli_fetch_assoc($this->RESULT)){
+                $resp = $temp;
+            }else{
+                mysqli_free_result($this->RESULT);
+            }
+        }else{
+            $this->ERROR = mysqli_errno($this->CONEXION) . ": " . mysqli_error($this->CONEXION);
+        }
+        return $resp ;
+    }
 }
