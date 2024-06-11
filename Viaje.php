@@ -13,15 +13,48 @@ Class Viaje {
     private $objResponsableV;
     private $costoDelViaje;
     private $sumaDeCostosAbonadosPorPasajeros;
+    private $objEmpresa;
+    private $mensajeoperacion;
 
-    public function __construct( int $codigo, string $destino, int $cantidadMaximaDePasajeros, array $colObjPasajeros, ResponsableV $objResponsableV, float $costoDelViaje){
-        $this->codigo = $codigo;
-        $this->destino = $destino;
-        $this->cantidadMaximaDePasajeros = $cantidadMaximaDePasajeros;
-        $this->colObjPasajeros = $colObjPasajeros;
-        $this->objResponsableV = $objResponsableV;
-        $this->costoDelViaje = $costoDelViaje;
+    public function __construct( ){
+        $this->destino = '';
+        $this->cantidadMaximaDePasajeros = 0;
+        $this->colObjPasajeros = [];
+        $this->objResponsableV = null;
+        $this->costoDelViaje = 0;
         $this->sumaDeCostosAbonadosPorPasajeros = $this->iniciarCostosAbonados();
+    }
+
+    public function cargar(string $destino, int $cantidadMaximaDePasajeros, array $colObjPasajeros, ResponsableV $objResponsableV, float $costoDelViaje, Empresa $empresa){
+        $this->setDestino($destino);
+        $this->setCantidadMaximaDePasajeros($cantidadMaximaDePasajeros);
+        $this->setColObjPasajeros($colObjPasajeros);
+        $this->setObjResponsableV($objResponsableV);
+        $this->setCostoDelViaje($costoDelViaje);
+        $this->setObjEmpresa($empresa);
+    }
+
+    public function insertar(){
+        $base = new database;
+		$resp = false;
+        $consultaInsertar = "INSERT INTO viaje (vdestino, vcantmaxpasajeros, idempresa, rnumeroempleado, vimporte) VALUES ('".$this->getDestino()."',".$this->getCantidadMaximaDePasajeros().",'". $this->getObjEmpresa()->getId() ."','".$this->getObjResponsableV()->getNumeroDeEmpleado()."',".$this-> getCostoDelViaje().")";
+	
+		if($base->Iniciar()){
+
+			if($id = $base->devuelveIDInsercion($consultaInsertar)){
+                $this->setCodigo($id);
+			    $resp=  true;
+
+			}	else {
+					$this->setMensajeoperacion($base->getError());
+					
+			}
+
+		} else {
+				$this->setMensajeoperacion($base->getError());
+			
+		}
+		return $resp;
     }
 
     public function getCodigo(){
@@ -78,6 +111,18 @@ Class Viaje {
 
     public function setSumaDeCostosAbonadosPorPasajeros($value){
         $this->sumaDeCostosAbonadosPorPasajeros = $value;
+    }
+
+    public function getObjEmpresa(){
+        return $this->objEmpresa;
+    }
+
+    public function setObjEmpresa(Empresa $empresa){
+        $this->objEmpresa = $empresa;
+    }
+
+    public function setMensajeoperacion($mensaje){
+        $this->mensajeoperacion = $mensaje;
     }
 
     public function __toString(){

@@ -30,6 +30,10 @@ Class Pasajero {
         $this->setNumeroDeTicket($numeroDeTicket);
     }
 
+    public function insertar(){
+        //
+    }
+
     public function getNombre(){
         return $this->nombre;
     }

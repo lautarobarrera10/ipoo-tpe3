@@ -6,12 +6,41 @@ Class ResponsableV {
     private $numeroDeLicencia;
     private $nombre;
     private $apellido;
+	private $mensajeoperacion;
 
-    public function __construct( int $numeroDeEmpleado, int $numeroDeLicencia, string $nombre, string $apellido,){
-        $this->numeroDeEmpleado = $numeroDeEmpleado;
-        $this->numeroDeLicencia = $numeroDeLicencia;
-        $this->nombre = $nombre;
-        $this->apellido = $apellido;
+    public function __construct( ){
+        $this->numeroDeEmpleado = 0;
+        $this->numeroDeLicencia = 0;
+        $this->nombre = "";
+        $this->apellido = "";
+    }
+
+    public function cargar(int $numeroDeLicencia, string $nombre, string $apellido){
+        $this->setNumeroDeLicencia($numeroDeLicencia);
+        $this->setNombre($nombre);
+        $this->setApellido($apellido);
+    }
+
+    public function insertar(){
+        $database = new Database;
+        $resp = false;
+        $consultaInsertar = "INSERT INTO responsable(rnumerolicencia, rnombre, rapellido) VALUES (".$this->getNumeroDeLicencia().",'".$this->getNombre()."','".$this->getApellido()."')";
+		
+		if($database->iniciar()){
+
+			if($id = $database->devuelveIDInsercion($consultaInsertar)){
+                $this->setNumeroDeEmpleado($id);
+			    $resp=  true;
+
+			}	else {
+					$this->setMensajeoperacion($database->getError());
+			}
+
+		} else {
+				$this->setMensajeoperacion($database->getError());
+			
+		}
+		return $resp;
     }
 
     public function getNumeroDeEmpleado(){
@@ -44,6 +73,10 @@ Class ResponsableV {
 
     public function setApellido($value){
         $this->apellido = $value;
+    }
+
+    public function setMensajeoperacion($mensaje){
+        $this->mensajeoperacion = $mensaje;
     }
 
     public function __toString(){
