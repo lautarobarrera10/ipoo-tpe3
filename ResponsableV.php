@@ -65,6 +65,42 @@ Class ResponsableV {
         return $rta;
     }
 
+    public function modificar(){
+        $database = new Database;
+        $consulta = "UPDATE responsable SET 
+                    rnumerolicencia = ". $this->getNumeroDeLicencia() .",
+                    rnombre = '". $this->getNombre() ."',
+                    rapellido = '". $this->getApellido() ."' 
+                    WHERE rnumeroempleado = " . $this->getNumeroDeEmpleado();
+        $rta = false;
+        if ($database->iniciar()){
+            if ($database->ejecutar($consulta)){
+                $rta = true;
+            } else {
+                $this->setMensajeoperacion($database->getError());
+            }
+        } else {
+            $this->setMensajeoperacion($database->getError());
+        }
+        return $rta;
+    }
+
+    public function eliminar(){
+        $database = new Database;
+        $consulta = "DELETE FROM responsable WHERE rnumeroempleado = " . $this->getNumeroDeEmpleado();
+        $rta = false;
+        if ($database->iniciar()){
+            if ($database->ejecutar($consulta)){
+                $rta = true;
+            } else {
+                $this->setMensajeoperacion($database->getError());
+            }
+        } else {
+            $this->setMensajeoperacion($database->getError());
+        }
+        return $rta;
+    }
+
     public function getNumeroDeEmpleado(){
         return $this->numeroDeEmpleado;
     }

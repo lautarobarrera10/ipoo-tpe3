@@ -72,9 +72,9 @@ class Empresa {
 		return $resp;
     }
 
-    public function buscar(string $nombre){
+    public function buscar(int $id){
         $database = new Database;
-		$consulta="SELECT * FROM empresa WHERE enombre='".$nombre."'";
+		$consulta="SELECT * FROM empresa WHERE idempresa='".$id."'";
         $rta = false;
         if ($database->iniciar()){
             if ($database->ejecutar($consulta)){

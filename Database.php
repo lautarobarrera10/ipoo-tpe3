@@ -18,7 +18,7 @@ class Database {
         $this->BASEDATOS = "bdviajes";
         $this->USUARIO = "root";
         $this->CLAVE="";
-        $this->RESULT=0;
+        // $this->RESULT=0;
         $this->QUERY="";
         $this->ERROR="";
     }

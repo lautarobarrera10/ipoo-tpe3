@@ -20,7 +20,6 @@ Class Viaje {
         $this->destino = '';
         $this->cantidadMaximaDePasajeros = 0;
         $this->colObjPasajeros = [];
-        $this->objResponsableV = null;
         $this->costoDelViaje = 0;
         $this->sumaDeCostosAbonadosPorPasajeros = $this->iniciarCostosAbonados();
     }
@@ -76,6 +75,46 @@ Class Viaje {
                     $this->setCostoDelViaje($viaje['vimporte']);
                     $rta = true;
                 }
+            } else {
+                $this->setMensajeoperacion($database->getError());
+            }
+        } else {
+            $this->setMensajeoperacion($database->getError());
+        }
+        return $rta;
+    }
+
+    public function modificar(){
+        $database = new Database;
+        // Preparar la consulta asegurándonos de que todos los valores estén correctamente concatenados
+        $consulta = "UPDATE viaje SET 
+                     vdestino = '" . $this->getDestino() . "',
+                     vcantmaxpasajeros = " . $this->getCantidadMaximaDePasajeros() . ",
+                     idempresa = " . $this->getObjEmpresa()->getId() . ",
+                     rnumeroempleado = " . $this->getObjResponsableV()->getNumeroDeEmpleado() . ",
+                     vimporte = " . $this->getCostoDelViaje() . "
+                     WHERE idviaje = " . $this->getCodigo();
+    
+        $rta = false;
+        if ($database->iniciar()){
+            if ($database->ejecutar($consulta)){
+                $rta = true;
+            } else {
+                $this->setMensajeoperacion($database->getError());
+            }
+        } else {
+            $this->setMensajeoperacion($database->getError());
+        }
+        return $rta;
+    }
+    
+    public function eliminar(){
+        $database = new Database;
+        $consulta = "DELETE FROM viaje WHERE idviaje = " . $this->getCodigo();
+        $rta = false;
+        if ($database->iniciar()){
+            if ($database->ejecutar($consulta)){
+                $rta = true;
             } else {
                 $this->setMensajeoperacion($database->getError());
             }
